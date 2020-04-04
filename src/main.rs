@@ -40,10 +40,12 @@ impl Deck {
         Deck { cards: v }
     }
 
+    #[allow(dead_code)]
     fn total_value(&self) -> u32 {
         self.cards.iter().map(|x| x.0).sum()
     }
 
+    #[allow(dead_code)]
     fn average_value(&self) -> f32 {
         let sum = self.total_value() as f32;
         let len = self.cards.len() as f32;
@@ -152,5 +154,6 @@ fn main() {
         .map(|_| max_score_attempt())
         .filter(|b| *b)
         .count();
-    println!("{} of {} attempts won", wins, attempts);
+    let pct = (wins as f32) / (attempts as f32) * 100f32;
+    println!("{} of {} attempts won ({}%)", wins, attempts, pct);
 }
