@@ -40,7 +40,6 @@ impl Deck {
                 v.push(Card::new(value));
             }
         }
-        assert_eq!(v.len(), 24); // Sanity check.
         let mut rng = thread_rng();
         v.shuffle(&mut rng);
         Deck {
@@ -53,10 +52,29 @@ impl Deck {
         let len = self.cards.len() as f32;
         sum / len
     }
+
+    // A toast pulls 3 cards from the deck.
+    fn toast(&mut self) -> (Card, Card, Card) {
+        assert!(self.cards.len() >= 3);
+        (
+            self.cards.pop().unwrap(),
+            self.cards.pop().unwrap(),
+            self.cards.pop().unwrap(),
+        )
+    }
+}
+
+#[test]
+fn deck_init_state() {
+    let d = Deck::new();
+    assert_eq!(d.cards.len(), 24);
+    assert_eq!(d.average_value(), 3.5);
 }
 
 
 fn main() {
     let mut deck = Deck::new();
-    println!("Hello, world! {:?}", deck.average_value());
+
+    let t = deck.toast();
+    println!("Hello, world! {:?}", t);
 }
